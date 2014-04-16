@@ -2,6 +2,7 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+var PM = require('./modules/post-manager');
 
 module.exports = function(app) {
 
@@ -39,6 +40,30 @@ module.exports = function(app) {
 		});
 	});
 	
+
+
+    //PRUEBA PA ADDPOST
+    app.get('/newPost', function(req, res) {
+		res.render('newPost', {  title: 'New Post'});
+	});
+	
+	app.post('/newPost', function(req, res){
+		PM.addNewAccount({
+			title 	: req.param('postTitle'),
+			body 	: req.param('postBody'),
+			//user 	: req.param('user'),
+			//pass	: req.param('pass'),
+			//country : req.param('country')
+		}, function(e){
+			if (e){
+				res.send(e, 400);
+			}	else{
+				res.send('ok', 200);
+			}
+		});
+	});
+
+
 
     //AÑADIDO POR MI, HE CAMBIADO LA PAGINA HOME POR MODIFYACCOUNT
     app.get('/modifyAccount', function(req, res) {

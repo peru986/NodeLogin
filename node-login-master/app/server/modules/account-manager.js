@@ -19,6 +19,7 @@ var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}),
 	}
 });
 var accounts = db.collection('accounts');
+var blogs = db.collection('blogs');
 
 /* login validation methods */
 
@@ -49,6 +50,17 @@ exports.manualLogin = function(user, pass, callback)
 		}
 	});
 }
+
+
+//PRUEBA PARA MANEJAR LA COLECCION BLOGS
+
+exports.addPost = function(newData, callback){
+    
+    
+    }
+
+
+
 
 /* record insertion, update & deletion methods */
 
