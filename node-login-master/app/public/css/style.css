@@ -16,6 +16,34 @@ body {
   background: radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
 /* W3C */
 }
+#post-container {
+  width: 340px;
+  margin: 160px auto;
+}
+#post-container label {
+  margin: 15px 0 5px 5px;
+}
+#post-container button {
+  width: 150px;
+  padding: 6px 40px 6px 40px;
+  float: left;
+  margin-top: 15px;
+}
+#post-container .checkbox {
+  margin: 23px 0 0 180px;
+}
+#post-container .btm-links {
+  text-align: center;
+  margin-top: 10px;
+}
+#post-container #create-account {
+  float: right;
+  margin-right: 13px;
+}
+#post-container #forgot-password {
+  float: left;
+  margin-left: 10px;
+}
 #login-container {
   width: 340px;
   margin: 160px auto;
@@ -87,6 +115,10 @@ body {
 }
 .modal-single-input .modal-footer {
   height: 20px;
+}
+.modal-addComment {
+  width: 310px;
+  margin: -200px 0 0 -150px;
 }
 .modal-alert {
   width: 310px;

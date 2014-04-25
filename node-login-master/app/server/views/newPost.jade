@@ -1,14 +1,29 @@
-﻿
+﻿extends layout
 
+block content
+	#post-container
+		form( method="post")#login-form.well.span4
+			h1 Write a new Post!
+			p.subheading Please enter a Title and some content for the article  
+			input(type='text',name="author", id='author',value='#{udata.name}')
+			label Title 
+			input(type="text", name="postTitle", id='postTitle').span4.required
+			label Article Body
+			input(type="text", name="postBody", id='postBody', style="width:300px; height:40px;").span4.required
+			button(type="submit")#btn-save.btn.btn-primary
+				i.icon-film.icon-white
+				| Save
+			div.clear-fix
+			hr
+			div.btm-links
+				a(href='/home')#goto-home Back to Home
+				
 
-#newPost-form-container
-    form(method="POST")#account-form.form-horizontal.well.span6
-        input(type="hidden", name="_method", value="PUT")
-        p Name
-        input(type="text", name="name")
-        p Email
-        input(type="email", name="email")
-        p Age
-        input(type="number", name="age")
-        p
-        input(type="submit")
+block scripts
+script(src='/vendor/jquery.min.js')
+script(src='/vendor/jquery.form.js')
+script(src='/vendor/bootstrap-modal.js')
+script(src='/vendor/bootstrap-transition.js')
+script(src='/js/views/home.js')
+script(src='/js/controllers/homeController.js')
+script(src='/js/form-validators/accountValidator.js')

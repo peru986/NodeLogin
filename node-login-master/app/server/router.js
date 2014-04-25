@@ -41,27 +41,71 @@ module.exports = function(app) {
 	});
 	
 
+    app.get('/post/:title', function(req,res){
+        PM.findPostById(req.params.title, function(error, post){
+            console.log("el titulo obtenido de la url es: "+ req.params.title);
+            if (error){res.send(error,400)}
+            else{
+                console.log("renderizando la pagina enviando el post, con titulo: "+ post.title);
+            res.render('post_show',{
+                post: post
+                
+                });
+            }
+            
+            });
+        });
+
+
 
     //PRUEBA PA ADDPOST
     app.get('/newPost', function(req, res) {
-		res.render('newPost', {  title: 'New Post'});
-	});
+        if (req.session.user == null){
+            res.redirect('/');
+	    }else{
+
+		    res.render('newPost', {  
+                    title: 'New Post',
+                    udata : req.session.user
+                    });
+	    }
+        });
 	
 	app.post('/newPost', function(req, res){
-		PM.addNewAccount({
+		PM.addNewPost({
 			title 	: req.param('postTitle'),
 			body 	: req.param('postBody'),
-			//user 	: req.param('user'),
-			//pass	: req.param('pass'),
+			date 	: req.param('date'),
+			author	: req.session.user.name
 			//country : req.param('country')
 		}, function(e){
 			if (e){
 				res.send(e, 400);
 			}	else{
-				res.send('ok', 200);
+
+                PM.getAllPosts( function(e, postCollection){
+			    res.render('home', {udata:req.session.user, posts : postCollection });
+		});
+                
+				
 			}
 		});
 	});
+
+    //AÑADIR COMENTARIO
+
+    app.post('/addComment', function(req, res){
+		console.log("ESTE SON LOS PARAMETROS PASADOS DESDE EL MODAL: TITLE:"+ req.body.title + " COMMENTBODY: "+ req.body.commentBody);    
+        PM.newComment({
+                    title: req.body.title,
+                    commentBody: req.body.body}, function(e, obj){
+			    if (!e){
+				    res.redirect('/');
+	                }	else{
+				    res.send('post not found', 400);
+			    }
+	        });
+	    });
 
 
 
@@ -71,7 +115,7 @@ module.exports = function(app) {
 	    // if user is not logged-in redirect back to login page //
 	            res.redirect('/');
 	        }   else{
-			    res.render('home', {
+			    res.render('modifyAccount', {
 				    title : 'Control Panel',
 				    countries : CT,
 				    udata : req.session.user
@@ -116,6 +160,22 @@ module.exports = function(app) {
 	// if user is not logged-in redirect back to login page //
 	        res.redirect('/');
 	    }   else{
+
+            PM.getAllPosts(function (e, postCollection){
+                if (!e)
+                    res.render('home',{
+                        title : 'Welcome HOME',
+                        countries : CT,
+                        udata : req.session.user,
+                        posts : postCollection  
+                        })
+                
+                });
+
+
+
+
+          /*  
             AM.getAllRecords(function (e, accounts){ 
 			    if (!e)
                 res.render('home', {
@@ -127,9 +187,12 @@ module.exports = function(app) {
 			});
                                 
 	    });
+        */
+
         }
 	});
 	
+    
 	app.post('/home', function(req, res){
         //este post ahora habria que cambiarlo para enviar un POST al server con un nuevo "articulo o video"
 

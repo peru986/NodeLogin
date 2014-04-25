@@ -8,6 +8,10 @@ function HomeController()
 // handle user logout //
 	$('#btn-logout').click(function(){ that.attemptLogout(); });
 
+// MIO handle home button //
+	$('#btn-home').click(function(){ window.location.href = '/home'; });
+ 
+
 // confirm account deletion //
 	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
 

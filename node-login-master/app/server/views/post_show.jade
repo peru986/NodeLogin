@@ -1,0 +1,22 @@
+﻿extends layout
+
+block content
+	div.container(style='margin:20px')
+		table.table.table-bordered.table-striped
+			br
+			thead
+				tr
+					th(style='width:180px') Title
+					th(style='width:200px') body
+					th(style='width:180px') author
+					th(style='width:180px') comments
+			tbody
+			tr
+				unless post.title==null
+					td= post.title
+				unless post.body==null
+					td= post.body
+				unless post.body==null
+					td= post.author
+				unless post.body==null
+					td= post.comments
