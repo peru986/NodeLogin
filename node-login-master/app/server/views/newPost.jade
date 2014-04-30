@@ -5,7 +5,7 @@ block content
 		form( method="post")#login-form.well.span4
 			h1 Write a new Post!
 			p.subheading Please enter a Title and some content for the article  
-			input(type='text',name="author", id='author',value='#{udata.name}')
+			input(type='text',name="author", id='author',value='#{udata}')
 			label Title 
 			input(type="text", name="postTitle", id='postTitle').span4.required
 			label Article Body

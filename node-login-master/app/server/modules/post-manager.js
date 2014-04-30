@@ -41,14 +41,28 @@ exports.addNewPost = function(newData, callback)
 //metodo sin probar para añadir un nuevo comentario.
 //NO FUCA! ARREGLAR!
 exports.newComment = function(commentData,callback){
-    posts.findOne({title: commentData.title}, function(e, post){
+    posts.findOne({title: 'a'}, function(e, post){
         
-        var arrayComentarios = post.comments + commentData.commentBody;
-        //arrayCommentarios.push(commentData.commentBody)
+        var arrayComentarios = [];
+        var texto = post.comments + commentData.commentBody;
+        arrayComentarios.push(texto);
         post.comments= arrayComentarios;
+
+        
+
+
+        posts.update({title: 'a'},
+            {
+               $set: {comments: arrayComentarios}
+            },function(e,updated){if (!e) console.log('Comentario insertado');}          
+        );
+
         console.log('post title: '+ post.title);
+        console.log('post commentarios : '+ post.comments);
         console.log('COMENTARIO a introducir: '+ commentData.commentBody);
         console.log('COMENTARIO INTRODUCIDO: '+ arrayComentarios);
+
+
         });
         
 }

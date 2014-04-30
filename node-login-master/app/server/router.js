@@ -76,7 +76,7 @@ module.exports = function(app) {
 			title 	: req.param('postTitle'),
 			body 	: req.param('postBody'),
 			date 	: req.param('date'),
-			author	: req.session.user.name
+			author	: req.session.user
 			//country : req.param('country')
 		}, function(e){
 			if (e){
@@ -96,10 +96,9 @@ module.exports = function(app) {
 
     app.post('/addComment', function(req, res){
 		console.log("ESTE SON LOS PARAMETROS PASADOS DESDE EL MODAL: TITLE:"+ req.body.title + " COMMENTBODY: "+ req.body.commentBody);    
-        PM.newComment({
-                    title: req.body.title,
-                    commentBody: req.body.body}, function(e, obj){
+        PM.newComment(req.body, function(e, obj){
 			    if (!e){
+                    res.send('ok', 200);
 				    res.redirect('/');
 	                }	else{
 				    res.send('post not found', 400);
@@ -107,6 +106,8 @@ module.exports = function(app) {
 	        });
 	    });
 
+
+        
 
 
     //AÑADIDO POR MI, HE CAMBIADO LA PAGINA HOME POR MODIFYACCOUNT

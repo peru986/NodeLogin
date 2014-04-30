@@ -49,13 +49,13 @@ $(document).ready(function(){
 
 // setup the confirm window that displays when the user chooses to add a comment //
 
-	$('.modal-addcomment').modal({ show : false, keyboard : true, backdrop : true });
-	$('.modal-addcomment .modal-header h3').text('Add a Comment');
+	$('.addComment').modal({ show : false, keyboard : true, backdrop : true });
+	$('.addComment .modal-header h3').text('Add a Comment');
 	//$('.modal-addcomment .modal-body p').html('<textarea rows="4" cols="50">');
-	$('.modal-addcomment .cancel').html('Cancel');
-	$('.modal-addcomment .submit').html('Post');
-	$('.modal-addcomment .submit').addClass('btn-danger');
-    //$('.modal-addComment button#ok').click(function(){window.location.href = '/';})
+	$('.addComment .cancel').html('Cancel');
+	$('.addComment .submit').html('Post');
+	$('.addComment .submit').addClass('btn-danger');
+    $('.addComment button#submit').click(function(){window.location.href = '/home';})
 
 
 

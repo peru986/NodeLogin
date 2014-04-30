@@ -12,7 +12,7 @@ function HomeController()
 	$('#btn-goNewPost').click(function(){ window.location.href = '/newPost'; });
 
 //MIO handle addComment
-    $('#btn-addComment').click(function(){$('.modal-addcomment').modal('show')});
+    $('#btn-addComment').click(function(){$('#addComment').modal('show');});
 
 //MIO handle user logout //
 	$('#btn-goModifyAccount').click(function(){ window.location.href = '/modifyAccount'; });
@@ -23,17 +23,66 @@ function HomeController()
 
 
 // handle account deletion //
-	$('.modal-addcomment .submit').click(function(){ that.addComment(); });
+	$('add-comment-form-submit').click(function(){ window.location.href = '/modifyAccount'; });
+
+    //toggle focus
+    
+   $('#addCommentsubmit').click(function(){$('#addComment, .window').hide();
+                                            $('#global-nav').focus();});
+   //window.location.href = '/modifyAccount';
+   //$('#addCommentsubmit').click(function(){window.location.href = '/home';});
+
+    $('#addComment').on('shown', function(){ $('#commentBody').focus(); });
+	$('#addComment').on('hidden', function(){ $('#global-nav').focus(); });
+
+
+    //that.addComment();
+
+    $('#add-comment-form').ajaxForm({
+		url: '/addComment',
+		beforeSubmit : function(formData, jqForm, options){
+		    console.log('ENTRA EN EL BEFORESUBMIT');
+                formData.push($('#commentBody').val());
+                formData.push($('#title').val());
+                console.log('BODY en la funcion ajax: '+ $('#commentBody').val() );
+                
+               // $('.addComment').modal('hide');
+                return true;
+		},
+		success	: function(responseText, status, xhr, $form){
+                console.log('ENTRA EN EL SUCcESS');
+                if (status == 'success') window.location.href = '/home';
+                that.showLockedAlert('Your comment has been posted.<br>Redirecting you back to the homepage.');
+			
+		},
+		error : function(){
+                console.log('ENTRA EN EL error');
+			console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
+		}
+	});
 
 
 
+/*
+    $(document).on("click", ".open-Modal", function () {
+        var myDNI = $(this).data('id');
+        $(".modal-body #DNI").val( myDNI );
+        });
+*/
+	
+	//$('#addComment').on('shown', function(){});
+
+
+
+
+/*
     this.addComment = function(){
         $('.modal-addcomment').modal('hide');
 		var that = this;
 		$.ajax({
 			url: '/addComment',
 			type: 'POST',
-			data: { body: $('#commentBody').text,
+			data: { body: $('commentBody').val(),
                     title:'pruebacomentarios'
                     },
 			success: function(data){
@@ -45,7 +94,7 @@ function HomeController()
 		});
 	}
 
-
+*/
         
 
 

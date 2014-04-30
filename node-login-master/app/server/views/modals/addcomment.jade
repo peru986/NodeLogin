@@ -1,11 +1,16 @@
 ﻿
-.modal-addcomment.modal.hide.fade
+
+#addComment.modal-single-input.modal.hide.fade
     div.modal-header
         button.close(data-dismiss='modal') x
         h3
     div.modal-body
-        p
-        textarea#commentBody(width=500, height=80)
+        form( method="post")#add-comment-form.well.span5
+            p Please enter your Comment
+            input(type="hidden", name="title", value=#{udata.title})
+            input(type="text", name="commentBody", id='commentBody').span5.required
+            button(type="submit")#submit.btn.btn-primary Submit
+            div.alert.alert-error.hide
+            button(data-dismiss="addComment").close
     div.modal-footer
         button(data-dismiss="modal").cancel.btn Cancel
-        button#ok.submit.btn Ok

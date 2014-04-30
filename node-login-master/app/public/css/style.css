@@ -116,7 +116,7 @@ body {
 .modal-single-input .modal-footer {
   height: 20px;
 }
-.modal-addComment {
+.addComment {
   width: 310px;
   margin: -200px 0 0 -150px;
 }
