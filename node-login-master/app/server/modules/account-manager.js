@@ -54,13 +54,6 @@ exports.manualLogin = function(user, pass, callback)
 }
 
 
-//PRUEBA PARA MANEJAR LA COLECCION BLOGS
-
-exports.addPost = function(newData, callback){
-    
-    
-    }
-
 
 
 

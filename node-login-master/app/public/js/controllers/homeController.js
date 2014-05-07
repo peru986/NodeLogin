@@ -12,11 +12,13 @@ function HomeController()
 	$('#btn-goNewPost').click(function(){ window.location.href = '/newPost'; });
 
 //MIO handle addComment
-    $('#btn-addComment').click(function(){$('#addComment').modal('show');});
+ //   $('#btn-addComment').click(function(){$('#addComment').modal('show');});
 
 //MIO handle user logout //
 	$('#btn-goModifyAccount').click(function(){ window.location.href = '/modifyAccount'; });
 
+//MIO search posts //
+    $('#btn-search').click(function(){ window.location.href = '/searchPost'; });
 // confirm account deletion //
 	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
 
@@ -38,20 +40,26 @@ function HomeController()
 
     //that.addComment();
 
+
+
+
     $('#add-comment-form').ajaxForm({
 		url: '/addComment',
 		beforeSubmit : function(formData, jqForm, options){
-		    console.log('ENTRA EN EL BEFORESUBMIT');
-                formData.push($('#commentBody').val());
-                formData.push($('#title').val());
-                console.log('BODY en la funcion ajax: '+ $('#commentBody').val() );
+		    
+            console.log('ENTRA EN EL BEFORESUBMIT');
                 
-               // $('.addComment').modal('hide');
+            formData.push($('#author').val());
+            formData.push($('#commentBody').val());
+            formData.push($('#title').val());
+            formData.push($('#post_id').val());
+            console.log('BODY en la funcion ajax: '+ $('#commentBody').val() );
+            window.location.href = '/home'; 
                 return true;
 		},
-		success	: function(responseText, status, xhr, $form){
+		success	: function(data){
                 console.log('ENTRA EN EL SUCcESS');
-                if (status == 'success') window.location.href = '/home';
+                //if (status == 'success') window.location.href = '/home';
                 that.showLockedAlert('Your comment has been posted.<br>Redirecting you back to the homepage.');
 			
 		},

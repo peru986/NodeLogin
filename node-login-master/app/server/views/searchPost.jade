@@ -1,0 +1,29 @@
+﻿extends layout
+block content
+	#account-form-container
+		form( method="post")#search-author-form.well.span4
+			h2 Search Post 
+			label#isAuthorSearch.checkbox Search by author
+				input(type="checkbox",name='isAuthorSearch')
+			label#isTagSearch.checkbox Search by tag
+				input(type="checkbox",name='isTagSearch')                
+			input(type="text", name="searchField", id='searchField').span4.required
+			button(type="submit")#btn-searchByAuthor.btn.btn-success
+				i.icon-search.icon-pencil
+				| Search
+			button(type="button")#btn-cancel.btn.btn-danger			
+				i.icon-pencil.icon-pencil
+				|Back
+			hr      
+		
+			
+	include navBar
+    
+block scripts
+	script(src='/vendor/jquery.min.js')
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/homeController.js')
+	script(src='/js/form-validators/accountValidator.js')  

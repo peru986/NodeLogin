@@ -1,5 +1,5 @@
 ﻿
-function HomeController()
+function modifyAccountController()
 {
 
 // bind event listeners to button clicks //

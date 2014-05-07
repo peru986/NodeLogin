@@ -12,7 +12,9 @@ block content
 					th(style='width:200px') Body
 					th(style='width:180px') Date
 					th(style='width:180px') Author
-					th(style='width:180px') Comment
+					th(style='width:180px') Comments
+					th(style='width:180px') Tags
+					th(style='width:180px') Options
                     
                     
 			tbody
@@ -23,4 +25,9 @@ block content
 					td= posts[i].body
 					td= posts[i].date
 					td= posts[i].author
-					td: button#btn-addComment.btn.btn-primary Add Comment
+					td	
+						- for (var j = 0; j< posts[i].comments.length; j++) 
+							posts[i].comments[j].body
+					td= posts[i].tags
+					td: a(class='#btn-addComment', href='/addComment/'+posts[i].title ) Add Comment
+						

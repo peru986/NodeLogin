@@ -5,11 +5,13 @@ block content
 		form( method="post")#login-form.well.span4
 			h1 Write a new Post!
 			p.subheading Please enter a Title and some content for the article  
-			input(type='text',name="author", id='author',value='#{udata}')
+			input(type='text',name="author", id='author',value='#{udata.name}')
 			label Title 
 			input(type="text", name="postTitle", id='postTitle').span4.required
 			label Article Body
 			input(type="text", name="postBody", id='postBody', style="width:300px; height:40px;").span4.required
+			label Tags(usar espacios para insertar varias) 
+			input(type="text", name="postTags", id='postTags').span4.required
 			button(type="submit")#btn-save.btn.btn-primary
 				i.icon-film.icon-white
 				| Save
@@ -17,7 +19,6 @@ block content
 			hr
 			div.btm-links
 				a(href='/home')#goto-home Back to Home
-				
 
 block scripts
 script(src='/vendor/jquery.min.js')

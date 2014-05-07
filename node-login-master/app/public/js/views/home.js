@@ -55,7 +55,7 @@ $(document).ready(function(){
 	$('.addComment .cancel').html('Cancel');
 	$('.addComment .submit').html('Post');
 	$('.addComment .submit').addClass('btn-danger');
-    $('.addComment button#submit').click(function(){window.location.href = '/home';})
+   // $('.addComment button#submit').click(function(){window.location.href = '/home';})
 
 
 
