@@ -61,7 +61,7 @@ function modifyAccountController()
 	}
 }
 
-HomeController.prototype.onUpdateSuccess = function()
+modifyAccountController.prototype.onUpdateSuccess = function()
 {
 	$('.modal-alert').modal({ show : false, keyboard : true, backdrop : true });
 	$('.modal-alert .modal-header h3').text('Success!');

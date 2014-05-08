@@ -3,7 +3,7 @@ var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 var PM = require('./modules/post-manager');
-var LV = require('./modules/post-manager');
+//var LV = require('./modules/post-manager');
 
 module.exports = function(app) {
 
@@ -197,6 +197,25 @@ module.exports = function(app) {
                         
                       
                 }else if (req.param('isTagSearch') == 'on'){
+
+                    PM.getAllPostsFromTag(req.body.searchField, function(error, posts){
+            
+                        if (error){
+                            
+                            console.log("Post no encontrado ");res.send(error,400)
+
+                            }else{
+
+                            console.log("devuelta coleccion de posts: ");
+                            res.render('printPosts',{
+                                posts: posts,
+                                udata: req.session.user
+                
+                            });
+                        }
+            
+                    });
+
                 }
 
             /*  PM.findPostByTitle(req.params.title, function(error, post){
@@ -214,7 +233,7 @@ module.exports = function(app) {
 	    });
 
 
-        
+   // app.get    
 
 
     //AÑADIDO POR MI, HE CAMBIADO LA PAGINA HOME POR MODIFYACCOUNT
