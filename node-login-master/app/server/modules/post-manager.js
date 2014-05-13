@@ -33,11 +33,12 @@ exports.addNewPost = function(post, callback)
                 var tags = post.tags;
                 var tagsSeparados = tags.split(" ");
                 console.log("TAGS SEPARADOS: "+ tagsSeparados);
-
-			    // append date stamp when record was created //
+                console.log("VideoBlob: "+ post.videoBlob);
+                			    // append date stamp when record was created //
 				post.date = moment().format('MMMM Do YYYY, h:mm:ss a');
                 post.tags = tagsSeparados;
                 post.comments = [];
+                //post.videoBlob = post.videoBlob;
 				posts.insert(post, {safe: true}, callback);
                 console.log("POST INSERTADO ");
 					

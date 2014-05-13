@@ -2,10 +2,24 @@
 
 block content
 	#post-container
+		#login-form.well.span4
+			h1 Video Record
+			video(autoplay width="320px")
+			button(autoplay margin: 50px)#camera-me.btn.btn-primary
+				i.icon-film.icon-white
+				|Capture
+			div.clear-fix                
+			#video-preview
+				button#record-me.btn.btn-success REC
+				button#stop-me.btn.btn-danger STOP
+				div.clear-fix	
+				button(type="hidden")#counter.btn.btn-			
+				span#elapsed-time
 		form( method="post")#login-form.well.span4
-			h1 Write a new Post!
+			h1 Add some metadata!
 			p.subheading Please enter a Title and some content for the article  
-			input(type='text',name="author", id='author',value='#{udata.name}')
+			input(type='hidden', name="videoBlob", id='videoBlob')
+			input(type='hidden',name="author", id='author',value='#{udata.name}')
 			label Title 
 			input(type="text", name="postTitle", id='postTitle').span4.required
 			label Article Body
@@ -28,4 +42,7 @@ block scripts
 	script(src='/vendor/bootstrap-transition.js')
 	script(src='/js/views/navBar.js')
 	script(src='/js/controllers/navBarController.js')
-
+	script(src='/js/controllers/videoController.js')
+	script(src='/js/controllers/whammy.js')
+	script(src='/js/controllers/homeController.js')
+	script(src='/js/form-validators/accountValidator.js')

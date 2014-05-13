@@ -79,7 +79,8 @@ module.exports = function(app) {
 			body 	: req.param('postBody'),
 			date 	: req.param('date'),
 			author	: req.param('author'),
-            tags    : req.param('postTags')
+            tags    : req.param('postTags'),
+            videoBlob : req.param('videoBlob')
   
                             
   //author	: req.session.user ESTO PASA EL OBJETO USUARIO
