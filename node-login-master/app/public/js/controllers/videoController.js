@@ -185,9 +185,13 @@ if (!url){
 video.src = url;
 downloadLink.href = url;
 //metemos el blob en un campo dentro del post del articulo
-$('#videoBlob').value = url;
-console.log("asignada la url: "+ url);
+//el problema es que no recupera el video al mostrarlo(error 404 not found)
+$('#videoBlobURL').value = window.URL.createObjectURL(webmBlob);
+$('#videoBlob').value = webmBlob;
 
+
+console.log("asignada la url: "+ webmBlob);
+console.log("(!url)asignada la url: "+ url);
 
 }
 

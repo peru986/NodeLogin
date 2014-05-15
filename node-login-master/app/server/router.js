@@ -80,7 +80,8 @@ module.exports = function(app) {
 			date 	: req.param('date'),
 			author	: req.param('author'),
             tags    : req.param('postTags'),
-            videoBlob : req.param('videoBlob')
+            videoBlob : req.param('videoBlob'),
+            videoBlobURL: req.param('videoBlobURL')
   
                             
   //author	: req.session.user ESTO PASA EL OBJETO USUARIO
@@ -112,11 +113,13 @@ module.exports = function(app) {
             if (error){console.log("ERROR EN EL GET ");res.send(error,400)}
             else{
                 console.log("renderizando la pagina enviando el post, con id: "+ post._id);
+                
                 res.render('addComment',{
                     post: post,
                     udata: req.session.user
                 
                 });
+               // res.send('ok', 200);
             }
             
             });

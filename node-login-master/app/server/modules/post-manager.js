@@ -2,7 +2,7 @@
 var MongoDB 	= require('mongodb').Db;
 var Server 		= require('mongodb').Server;
 var moment 		= require('moment');
-
+var mongo       = require('mongodb');
 var dbPort 		= 27017;
 var dbHost 		= 'localhost';
 var dbName 		= 'node-login';
@@ -34,12 +34,21 @@ exports.addNewPost = function(post, callback)
                 var tagsSeparados = tags.split(" ");
                 console.log("TAGS SEPARADOS: "+ tagsSeparados);
                 console.log("VideoBlob: "+ post.videoBlob);
+                console.log("VideoBlobURL: "+ post.videoBlobURL);
                 			    // append date stamp when record was created //
 				post.date = moment().format('MMMM Do YYYY, h:mm:ss a');
                 post.tags = tagsSeparados;
                 post.comments = [];
+                
+                //prueba 
+                //var binaryData = new MongoDB.Binary(post.videoBlob);
+                var binaryData = new mongo.Binary(post.videoBlob)
+
+              
                 //post.videoBlob = post.videoBlob;
-				posts.insert(post, {safe: true}, callback);
+				post.videoBlob= binaryData;
+                post.videoBlobURL= post.videoBlobURL;
+                posts.insert(post, {safe: true}, callback);
                 console.log("POST INSERTADO ");
 					
 				}
