@@ -74,6 +74,11 @@ module.exports = function(app) {
 	
 	app.post('/newPost', function(req, res){
 
+        if (req.param('isPrivateVideo')== 'on')
+            esVideoPrivado=1;
+        else 
+            esVideoPrivado=0;
+
 		PM.addNewPost({
 			title 	: req.param('postTitle'),
 			body 	: req.param('postBody'),
@@ -81,7 +86,8 @@ module.exports = function(app) {
 			author	: req.param('author'),
             tags    : req.param('postTags'),
             videoBlob : req.param('videoBlob'),
-            videoBlobURL: req.param('videoBlobURL')
+            videoBlobURL: req.param('videoBlobURL'),
+            isPrivate: esVideoPrivado
   
                             
   //author	: req.session.user ESTO PASA EL OBJETO USUARIO

@@ -39,15 +39,26 @@ exports.addNewPost = function(post, callback)
 				post.date = moment().format('MMMM Do YYYY, h:mm:ss a');
                 post.tags = tagsSeparados;
                 post.comments = [];
+               
                 
+                //meto la variable is private como boolean
+                 post.isPrivateVideo= post.isPrivate;
+
                 //prueba 
                 //var binaryData = new MongoDB.Binary(post.videoBlob);
                 var binaryData = new mongo.Binary(post.videoBlob)
+               
+                //Prueba para ver si puedo detectar el campo vacio
+                if (post.videoBlob===""){
+                    console.log("video BLOB VACIO");
 
+                    }
               
                 //post.videoBlob = post.videoBlob;
 				post.videoBlob= binaryData;
                 post.videoBlobURL= post.videoBlobURL;
+
+                
                 posts.insert(post, {safe: true}, callback);
                 console.log("POST INSERTADO ");
 					
@@ -108,9 +119,6 @@ exports.getAllPostsFromTag = function(tag,callback)
 		else callback(null, res)
 	});
 };
-
-
-    
 
 exports.getAllPosts = function(callback)
 {

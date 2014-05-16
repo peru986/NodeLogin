@@ -17,7 +17,9 @@ block content
 				span#elapsed-time
 		form( method="post")#login-form.well.span4
 			h1 Add some metadata!
-			p.subheading Please enter a Title and some content for the article 
+			p.subheading Please enter a Title and some content for the video article. 
+			label#isPrivate.checkbox Private article
+				input(type="checkbox",name='isPrivateVideo')
 			input(type='hidden', name="videoBlobURL", id='videoBlobURL')            
 			input(type='hidden', name="videoBlob", id='videoBlob')
 			input(type='hidden',name="author", id='author',value='#{udata.name}')
