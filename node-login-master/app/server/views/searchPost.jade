@@ -6,7 +6,9 @@ block content
 			label#isAuthorSearch.checkbox Search by author
 				input(type="checkbox",name='isAuthorSearch')
 			label#isTagSearch.checkbox Search by tag
-				input(type="checkbox",name='isTagSearch')                
+				input(type="checkbox",name='isTagSearch') 
+			label#isTitleSearch.checkbox Search by title
+				input(type="checkbox",name='isTitleSearch')                
 			input(type="text", name="searchField", id='searchField').span4.required
 			button(type="submit")#btn-searchByAuthor.btn.btn-success
 				i.icon-search.icon-pencil
@@ -19,8 +21,7 @@ block content
 			
 	include navBar
 	include modals/alert
-	include modals/addComment
-	include modals/confirm
+
     
 block scripts
 	script(src='/vendor/jquery.min.js')
@@ -28,6 +29,5 @@ block scripts
 	script(src='/vendor/bootstrap-modal.js')
 	script(src='/vendor/bootstrap-transition.js')
 	script(src='/js/controllers/navBarController.js')
-	script(src='/js/form-validators/accountValidator.js')
 	script(src='/js/views/navBar.js')
-	script(src='/js/controllers/homeController.js')
+

@@ -20,7 +20,7 @@ block content
 			tbody
 			
 			- for (var i = 0; i < posts.length; i++)
-				- var test = (posts[i].author === udata.name? 'Edit':'') 
+				- var edit = (posts[i].author === udata.name? 'Edit':'') 
 				tr
 					td= i+1
 					td= posts[i].title
@@ -29,10 +29,10 @@ block content
 					td= posts[i].author
 					td	
 						- for (var j = 0; j< posts[i].comments.length; j++) 
-							posts[i].comments[j].body
+							{posts[i].comments[j].body}
 					td= posts[i].tags
 					td: a(class='#btn-addComment', href='/addComment/'+posts[i].title ) AddComment
-					td: a(class='#btn-editPost', href='/editPost/'+posts[i].title ) #{test}
+					td: a(class='#btn-editPost', href='/editPost/'+posts[i].title ) #{edit}
 	include navBar
 block scripts
 	script(src='/vendor/jquery.min.js')

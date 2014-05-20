@@ -39,10 +39,6 @@ exports.addNewPost = function(post, callback)
 				post.date = moment().format('MMMM Do YYYY, h:mm:ss a');
                 post.tags = tagsSeparados;
                 post.comments = [];
-               
-                
-                //meto la variable is private como boolean
-                 post.isPrivateVideo= post.isPrivate;
 
                 //prueba 
                 //var binaryData = new MongoDB.Binary(post.videoBlob);
@@ -65,38 +61,102 @@ exports.addNewPost = function(post, callback)
 				}
 			});
 }
-//metodo sin probar para añadir un nuevo comentario.
-//NO FUCA! ARREGLAR!
+//metodo para añadir un nuevo comentario.
 exports.newComment = function(commentData,callback){
-    posts.findOne({_id: commentData._id}, function(e, post){
+    posts.findOne({title: commentData.title}, function(e, post){
+        if (e) console.log('ERRORAZO  encontrando el post PM.newComment');
         var titlePost = commentData.title;
         var bodyComentario = commentData.commentBody;
         var authorComentario = commentData.author;
         var dateComentario = moment().format('MMMM Do YYYY, h:mm:ss a');
         var idPost = commentData.post_id;
         console.log('DATOS CAPTURADOS: '+ titlePost+" "+ bodyComentario+" "+ authorComentario+" "+ idPost+" ");
-        //var texto = post.comments + commentData.commentBody;
-        //arrayComentarios.push(texto);
-
-       // db.ejemplo.update( {‘autor’:'angel’, ‘titulo’:'Mi primer post…’}, {$push: {‘comentarios’: {‘autor’:'Perico’, ‘texto’:'Que bien’}}})
-       //post.comments= arrayComentarios;
 
         posts.update({title: titlePost},
             {
                //$set: {comments: arrayComentarios}
                $push: {'comments': {'author':authorComentario,'body':bodyComentario,'date':dateComentario}}
-            },function(e,updated){if (!e) console.log('Comentario insertado');}          
-        );
-
-        //console.log('post title: '+ post.title);
-        //console.log('post commentarios : '+ post.comments);
-        //console.log('COMENTARIO a introducir: '+ commentData.commentBody);
-       // console.log('COMENTARIO INTRODUCIDO: '+ arrayComentarios);
-
-
+            },callback)
+            //function(e,updated){if (!e) console.log('Comentario insertado');}          
         });
+
+
         
 }
+
+
+exports.editPost = function(postData,callback){
+
+        posts.findOne({title: postData.oldTitle}, function(e, post){
+
+        if (e) console.log('ERRORAZO  encontrando el post PM.editPost');
+        else{
+            var oldTitle = postData.oldTitle;
+            var titlePost = postData.title;
+            var bodyPost = postData.body;
+            var authorPost = postData.author;
+            var dateEdit = moment().format('MMMM Do YYYY, h:mm:ss a');
+            var idPost = post._id;
+            var tags = postData.tags;
+            var comments = post.comments;
+            var videoBlob = post.videoBlob;
+            var videoBlobURL= post.videoBlobURL;
+
+            console.log('DATOS CAPTURADOS: '+ titlePost+ " "+ bodyPost+" "+ authorPost+" "+dateEdit+" "+tags+" [comments]  "+comments+" [videoBLOb] "+videoBlob+" [videoBLObURL]  "+videoBlobURL+" ");
+            //var texto = post.comments + commentData.commentBody;
+            //arrayComentarios.push(texto);
+
+           // db.ejemplo.update( {‘autor’:'angel’, ‘titulo’:'Mi primer post…’}, {$push: {‘comentarios’: {‘autor’:'Perico’, ‘texto’:'Que bien’}}})
+           //post.comments= arrayComentarios;
+
+
+           //COMPROBAMOS SI EL TITUO ES EL MISMO, SI NO LO ES BORRAMOS EL ARTICULO E INSERTAMOS UNO NUEVO
+           if (oldTitle === titlePost){
+
+
+               // console.log("TITLOS IGUALES!!!!!!, el body: "+ bodyPost);      
+                posts.update({title: titlePost},
+                    {
+                        title:titlePost,
+                        body: bodyPost,
+                        date: dateEdit,
+                        author: authorPost,
+                        tags: tags,
+                        comments: comments,
+                        videoBlob: videoBlob,
+                        videoBlobURL: videoBlobURL
+
+                        //$set: {comments: arrayComentarios}
+             
+                    },callback)
+
+            }else{
+            
+                posts.remove({title:oldTitle},callback);
+            
+                posts.insert({
+                    title: titlePost,
+                    body: bodyPost,
+                    date: dateEdit,
+                    author: authorPost,
+                    tags: tags,
+                    comments: comments,
+                    videoBlob: videoBlob,
+                    videoBlobURL: videoBlobURL
+
+                }, {safe: true}, callback);
+            
+
+
+
+            
+            }
+      }//end else
+
+        });
+    
+    
+    }
 
 //METODO PARA BUSCAR LOS ARTICULOS SEGUN AUTOR
 //NO PROBADO
@@ -171,6 +231,23 @@ exports.findPostByAuthor=function(author, callback){
             });
 
       };
+
+      
+/* auxiliary methods */
+
+var getObjectId = function(id)
+{
+	return posts.db.bson_serializer.ObjectID.createFromHexString(id)
+}
+
+var findById = function(id, callback)
+{
+	posts.findOne({_id: getObjectId(id)},
+		function(e, res) {
+		if (e) callback(e)
+		else callback(null, res)
+	});
+};
 
       
    

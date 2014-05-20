@@ -1,11 +1,11 @@
 ﻿
 
-function navBarController()
+function videoController()
 {
 
 
-    // bind event listeners to button clicks //
-    var that = this;
+// bind event listeners to button clicks //
+var that = this;
 
 
 /*Tip: When a text is hooked in a <span> element, you can style it with CSS, or manipulate it with JavaScript. De ahi q pongamos spam en elapsed time */

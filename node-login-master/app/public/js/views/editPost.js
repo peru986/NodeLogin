@@ -1,14 +1,13 @@
 ﻿$(document).ready(function(){
 
+    var ep = new editPostController();
 
-    var ac = new addCommentController();
-
-    	$('#add-comment-form').ajaxForm({
+        $('#editPost-form').ajaxForm({
 		    
 		    beforeSubmit : function(formData, jqForm, options){
 		        //console.log('BEFORESUBMIT_formData: '+ formData.commentBody);
                     //formData.push($('#commentBody').val());
-                console.log('BODY en la funcion ajax: '+ $('#commentBody').val() );
+                console.log('BODY en la funcion ajax: '+ $('#editBody').val() );
                 return true;//prueba
 		    },
 		    success	: function(responseText, status, xhr, $form){
@@ -22,19 +21,16 @@
 			    //ev.showEmailAlert("Sorry. There was a problem, please try again later.");
 		}
 	});
-	//$('#addComment').modal('show');
-	//$('#addComment').on('shown', function(){})
-
-
-
-    $('#account-form-btn2').addClass('btn-primary');
-// setup the alert that displays when an account is successfully created //
+    
+   // setup the alert that displays when an account is successfully created //
 
 	$('.modal-alert').modal({ show : false, keyboard : false, backdrop : 'static' });
 	$('.modal-alert .modal-header h3').text('Success!');
-	$('.modal-alert .modal-body p').html('Your COMENTARIO has been created.</br>Click OK to return to the login page.');
+	$('.modal-alert .modal-body p').html('Your Post has been modified.</br>Click OK to return to the login page.');
 
-
-
-
-})
+ 
+    
+    
+    
+    
+    })

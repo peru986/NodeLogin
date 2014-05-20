@@ -74,7 +74,7 @@ module.exports = function(app) {
 	
 	app.post('/newPost', function(req, res){
 
-        if (req.param('isPrivateVideo')== 'on')
+        if (req.param('isPrivateVideo') == 'on')
             esVideoPrivado=1;
         else 
             esVideoPrivado=0;
@@ -107,60 +107,131 @@ module.exports = function(app) {
 		});
 	});
 
-    //METODO SIN USAR MODAL PARA AÑADIR COMENTARIO
-    //PONE ID_POST PERO EN REALIDAD SE ESTA EMPLEANDO EL TITULO XQ NO FUCA LA FINDBYID
-    app.get('/addComment/:idPost', function(req,res){
 
-            var id_Post= req.params.idPost;
-            console.log("el titulo obtenido de la url es: "+ req.params.idPost);
+     app.get('/editPost/:idPost', function(req,res){
 
-            PM.findPostByTitle(id_Post, function(error, post){
+            var title= req.params.idPost;
+            console.log("el titulo del post es: "+ req.params.idPost);
+
+            PM.findPostByTitle(title, function(error, post){
             
             if (error){console.log("ERROR EN EL GET ");res.send(error,400)}
             else{
                 console.log("renderizando la pagina enviando el post, con id: "+ post._id);
                 
+               
+                res.render('editPost',{
+                    post: post,
+                    udata: req.session.user
+                
+                });
+             }
+            
+            });
+            });
+
+      app.post('/editPost/:idPost', function(req, res){
+
+		console.log("ESTE SON LOS PARAMETROS PASADOS DESDE EL editPost/post :"
+                + " TITLE:"+ req.body.editTitle
+                + " COMMENTBODY: "+ req.body.editBody
+                + " author: "+ req.body.author
+                + " tags: "+ req.body.editTags
+                ); 
+            
+        if (req.param('isPrivateVideo') == 'on')
+            esVideoPrivado=1;
+        else 
+            esVideoPrivado=0;
+
+        //var data = req.body;  
+          
+        PM.editPost({
+            oldTitle: req.param('oldTitle'),
+            title 	: req.param('editTitle'),
+			body 	: req.param('editBody'),
+			//date 	: req.param('date'),
+			author	: req.param('author'),
+            tags    : req.param('editTags'),
+            videoBlob : req.param('videoBlob'),
+            videoBlobURL: req.param('videoBlobURL'),
+            isPrivate: esVideoPrivado
+
+        },function(e){
+            if (e){
+
+                res.send(e, 400);
+            }else{
+                console.log('ROUTER.JS(post de editPOST RES.SEND OK)');
+                res.send('ok',200);
+                }
+            });    
+            
+     });    
+
+
+
+    //METODO SIN USAR MODAL PARA AÑADIR COMENTARIO
+    //PONE ID_POST PERO EN REALIDAD SE ESTA EMPLEANDO EL TITULO XQ NO FUCA LA FINDBYID
+   
+     app.get('/addComment/:idPost', function(req,res){
+
+            var title= req.params.idPost;
+            console.log("el titulo obtenido de la url es: "+ req.params.idPost);
+
+            PM.findPostByTitle(title, function(error, post){
+            
+            if (error){console.log("ERROR EN EL GET ");res.send(error,400)}
+            else{
+                console.log("renderizando la pagina enviando el post, con id: "+ post._id);
+                
+               
                 res.render('addComment',{
                     post: post,
                     udata: req.session.user
                 
                 });
+               
+               
+               
+
+
                // res.send('ok', 200);
             }
             
             });
             });
-/*
-    app.post('/addComment/:idPost', function(req, res){
-		console.log("ESTE SON LOS PARAMETROS PASADOS DESDE EL MODAL: TITLE:"+ req.body.title + " COMMENTBODY: "+ req.body.commentBody + "author: "+ req.body.author + " id: "+ req.body._id);    
-        var data = req.body;
-       /*          PM.newComment(data, function(e, obj){
-			    if (!e){
-                    res.send('ok', 200);
-				    res.redirect('/');
-	                }	else{
-				    res.send('post not found', 400);
-			    }
-	        });
 
-	    });
-*/
+  app.post('/addComment/:idPost', function(req, res){
 
+		console.log("ESTE SON LOS PARAMETROS PASADOS DESDE EL addComment/post :"
+                + "TITLE:"+ req.body.title 
+                + " COMMENTBODY: "+ req.body.commentBody 
+                + "author: "+ req.body.author 
+                + " id: "+ req.body._id); 
+            
 
+        var data = req.body;  
+          
+        PM.newComment({
+            title: req.body.title,
+            commentBody: req.body.commentBody,
+            author: req.body.author,
+            post_id: req.body._id
 
-    //AÑADIR COMENTARIO
+        },function(e){
+            if (e){
 
-    app.post('/addComment', function(req, res){
-		console.log("[ADDCOMMENT]ESTE SON LOS PARAMETROS PASADOS DESDE EL MODAL: TITLE:"+ req.body.title + " COMMENTBODY: "+ req.body.commentBody + "author: "+ req.body.author+ " id: "+ req.body.post_id);    
-        PM.newComment(req.body, function(e, obj){
-			    if (!e){
-                    res.send('ok', 200);
-				    res.redirect('/home');
-	                }	else{
-				    res.send('post not found', 400);
-			    }
-	        });
-	    });
+                res.send(e, 400);
+            }else{
+                console.log('ROUTER.JS(post de addCOmment RES.SEND OK)');
+                res.send('ok',200);
+                }
+            });    
+            
+     });             
+     
+
 
     //BUSCAR POSTS
     app.get('/searchPost', function(req,res){
@@ -175,9 +246,15 @@ module.exports = function(app) {
 
     app.post('/searchPost', function(req, res){
 		//console.log("[searchpost] authorSearch:"+ req.body.authorSearch + " tagSearch: "+ req.body.tagSearch + "checkbox1: " + req.param('isAuthorSearch') );    
+        
+            var isAuthorSearch = req.param('isAuthorSearch') == 'on';
+            var isTagSearch = req.param('isTagSearch') == 'on';
+            var isTitleSearch = req.param('isTitleSearch') == 'on';
+            
         if (req.param('searchField')== ''){
-		console.log("ERROR EN EL GET ");res.send("Campo de busqueda vacio",400);           
+		    console.log("ERROR EN EL GET ");res.send("Campo de busqueda vacio",400);           
             }
+
         else if ((req.param('isAuthorSearch') == 'on')&(req.param('isTagSearch') == 'on')){
 
 
@@ -228,22 +305,11 @@ module.exports = function(app) {
 
                 }
 
-            /*  PM.findPostByTitle(req.params.title, function(error, post){
-            console.log("el titulo obtenido de la url es: "+ req.params.title);
-            if (error){res.send(error,400)}
-            else{
-                console.log("renderizando la pagina enviando el post, con titulo: "+ post.title);
-            res.render('post_show',{
-                post: post
-                
-                });
-            }
-            
-            });*/
+
 	    });
 
 
-   // app.get    
+
 
 
     //AÑADIDO POR MI, HE CAMBIADO LA PAGINA HOME POR MODIFYACCOUNT
@@ -308,23 +374,6 @@ module.exports = function(app) {
                         })
                 
                 });
-
-
-
-
-          /*  
-            AM.getAllRecords(function (e, accounts){ 
-			    if (!e)
-                res.render('home', {
-				    title : 'Welcome HOME',
-				    countries : CT,
-				    udata : req.session.user,
-                    accts : accounts                                                
-
-			});
-                                
-	    });
-        */
 
         }
 	});

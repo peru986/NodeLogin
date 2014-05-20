@@ -1,0 +1,38 @@
+﻿extends layout
+
+block content
+	#post-container
+		form( method="post")#editPost-form.well.span4
+			h1 Edit your Post!
+				p.subheading Please enter a Title and some content for the video article. 
+					label#isPrivate.checkbox Private article
+						input(type="checkbox",name='isPrivateVideo')
+					input(type='hidden', name="oldTitle", id='oldTitle',value='#{post.title}')
+					input(type='hidden', name="videoBlobURL", id='videoBlobURL',value='#{post.videoBlobURL}')            
+					input(type='hidden', name="videoBlob", id='videoBlob',value='#{post.videoBlob}')
+					input(type='hidden',name="author", id='author',value='#{udata.name}')
+					label Title 
+					input(type="text", name="editTitle", id='editTitle', value='#{post.title}').span4.required
+					label Article Body
+					input(type="text", name="editBody", id='editBody',value='#{post.body}', style="width:300px; height:40px;").span4.required
+					label Tags(usar espacios para insertar varias) 
+					input(type="text", name="editTags", id='editTags',value='#{post.tags}').span4.required
+					button(type="submit")#btn-save.btn.btn-primary
+						i.icon-film.icon-white
+						| Save
+					div.clear-fix
+					hr
+					div.btm-links
+						a(href='/home')#goto-home Back to Home
+	include navBar
+	include modals/alert
+
+block scripts
+	script(src='/vendor/jquery.min.js')
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/js/views/navBar.js')
+	script(src='/js/controllers/navBarController.js')
+	script(src='/js/views/editPost.js')
+	script(src='/js/controllers/editPostController.js')
