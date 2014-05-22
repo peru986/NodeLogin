@@ -1,6 +1,7 @@
 ﻿$(document).ready(function(){
 
 	var hc = new navBarController();
+    
 
 
     // customize the account settings form //

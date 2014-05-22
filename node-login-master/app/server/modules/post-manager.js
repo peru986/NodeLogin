@@ -33,7 +33,7 @@ exports.addNewPost = function(post, callback)
                 var tags = post.tags;
                 var tagsSeparados = tags.split(" ");
                 console.log("TAGS SEPARADOS: "+ tagsSeparados);
-                console.log("VideoBlob: "+ post.videoBlob);
+                //console.log("VideoBlob: "+ post.videoBlob);
                 console.log("VideoBlobURL: "+ post.videoBlobURL);
                 			    // append date stamp when record was created //
 				post.date = moment().format('MMMM Do YYYY, h:mm:ss a');
@@ -42,8 +42,20 @@ exports.addNewPost = function(post, callback)
 
                 //prueba 
                 //var binaryData = new MongoDB.Binary(post.videoBlob);
-                var binaryData = new mongo.Binary(post.videoBlob)
-               
+                //var binaryData = new mongo.Binary(post.videoBlob)
+
+                //PRUEBA FILEREADER
+
+              /*  var fReader = new FileReader();
+                fReader.onload = function(e){
+                    var dataURL = reader.result;
+                    }
+
+
+                fReader.readAsDataURL(post.videoBlob);
+               console.log("dataURL: "+ dataURL);*/
+
+
                 //Prueba para ver si puedo detectar el campo vacio
                 if (post.videoBlob===""){
                     console.log("video BLOB VACIO");
@@ -51,7 +63,7 @@ exports.addNewPost = function(post, callback)
                     }
               
                 //post.videoBlob = post.videoBlob;
-				post.videoBlob= binaryData;
+				post.videoBlob= post.videoBlob;
                 post.videoBlobURL= post.videoBlobURL;
 
                 

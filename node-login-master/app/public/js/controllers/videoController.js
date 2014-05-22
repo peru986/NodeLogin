@@ -4,6 +4,8 @@ function videoController()
 {
 
 
+
+
 // bind event listeners to button clicks //
 var that = this;
 
@@ -177,23 +179,38 @@ if (!video){
 if (!url){
 	var webmBlob = Whammy.fromImageArray(frames, 1000/ 60);
 	trace('Se ha empleado Whammy.js para la codificacion');
-	url = window.URL.createObjectURL(webmBlob);
+    trace('BlobType: '+ webmBlob.type);
+    //modificado!!!!
+	url =  window.URL.createObjectURL(webmBlob);
     console.log("(!url)asignada la url: "+ url);
     console.log("(!url)asignada la webmBlob: "+ webmBlob);
 }
 
 video.src = url;
 downloadLink.href = url;
+
 //metemos el blob en un campo dentro del post del articulo
 //el problema es que no recupera el video al mostrarlo(error 404 not found)
 $('#videoBlobURL').value = window.URL.createObjectURL(webmBlob);
-$('#videoBlob').value = webmBlob;
+//$('#videoBlob').value = webmBlob;
 
+//prueba filereader #1
+readBlob(webmBlob);
 
 console.log("asignada la url: "+ webmBlob);
 console.log("(!url)asignada la url: "+ url);
 
 }
+//funcion prueba filereader#2
+function readBlob(blob,post){
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = function(){
+        var caca = reader.result;
+        console.log("FILEREADER : "+ caca);
+        $('#videoBlob').value = caca;
+        }
+    }
 
 
 function initEvents() {

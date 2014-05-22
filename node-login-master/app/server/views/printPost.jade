@@ -2,7 +2,7 @@
 block content
 
 	#login-container.well
-		video(width="320px", height="240px",src='#{post.videoBlobURL}',poster='http://brocku.ca/business/sites/all/modules/flashvideo/video_MIA.png')#videoTest
+		video(autoplay controls width="320px", height="240px",src='#{post.videoBlob}')#videoTest
 		h2 Title: 
 		p.subheading #{post.title}
 		h2 Cuerpo: 
