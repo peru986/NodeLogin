@@ -31,8 +31,8 @@ block content
 						- for (var j = 0; j< posts[i].comments.length; j++) 
 							{posts[i].comments[j].body}
 					td= posts[i].tags
-					td: a(class='#btn-addComment', href='/addComment/'+posts[i].title ) AddComment
-					td: a(class='#btn-editPost', href='/editPost/'+posts[i].title ) #{edit}
+					td: a(class='#btn-addComment', href='/addComment/'+posts[i]._id ) AddComment
+					td: a(class='#btn-editPost', href='/editPost/'+posts[i]._id ) #{edit}
 	include navBar
 block scripts
 	script(src='/vendor/jquery.min.js')

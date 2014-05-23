@@ -26,7 +26,7 @@ exports.addNewPost = function(post, callback)
 {
 	posts.findOne({title:post.title}, function(e, o) {
 		if (o){
-			callback('There is a Post with that name: '+ post.title);
+			callback('title-taken');
 		}	else{
 			    
                 //separamos las tags
@@ -114,7 +114,7 @@ exports.editPost = function(postData,callback){
             var videoBlob = post.videoBlob;
             var videoBlobURL= post.videoBlobURL;
 
-            console.log('DATOS CAPTURADOS: '+ titlePost+ " "+ bodyPost+" "+ authorPost+" "+dateEdit+" "+tags+" [comments]  "+comments+" [videoBLOb] "+videoBlob+" [videoBLObURL]  "+videoBlobURL+" ");
+            //console.log('DATOS CAPTURADOS: '+ titlePost+ " "+ bodyPost+" "+ authorPost+" "+dateEdit+" "+tags+" [comments]  "+comments+" [videoBLOb] "+videoBlob+" [videoBLObURL]  "+videoBlobURL+" ");
             //var texto = post.comments + commentData.commentBody;
             //arrayComentarios.push(texto);
 
@@ -201,12 +201,11 @@ exports.getAllPosts = function(callback)
 	});
 };
 
-//metodo sin probar para obtener un post segun su id
-//PROBLEMA no encuentra los posts segun el id
+
 exports.findPostById=function(id, callback){
 
-    console.log("el id dentro del findpostbyid es: "+ id);
-    posts.find({_id:id}, function(error, result) {
+    //console.log("el id dentro del findpostbyid es: "+ getObjectId(id));
+    posts.findOne({_id:getObjectId(id)}, function(error, result) {
           if( error ){
               callback(error)
               }else{
@@ -260,6 +259,16 @@ var findById = function(id, callback)
 		else callback(null, res)
 	});
 };
+
+var findByMultipleFields = function(a, callback)
+{
+// this takes an array of name/val pairs to search against {fieldName : 'value'} //
+	posts.find( { $or : a } ).toArray(
+		function(e, results) {
+		if (e) callback(e)
+		else callback(null, results)
+	});
+}
 
       
    

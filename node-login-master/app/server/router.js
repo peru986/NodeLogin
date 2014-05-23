@@ -110,14 +110,14 @@ module.exports = function(app) {
 
      app.get('/editPost/:idPost', function(req,res){
 
-            var title= req.params.idPost;
-            console.log("el titulo del post es: "+ req.params.idPost);
+            var id= req.params.idPost;
+            //console.log("el titulo del post es: "+ req.params.idPost);
 
-            PM.findPostByTitle(title, function(error, post){
+            PM.findPostById(id, function(error, post){
             
             if (error){console.log("ERROR EN EL GET ");res.send(error,400)}
             else{
-                console.log("renderizando la pagina enviando el post, con id: "+ post._id);
+                //console.log("renderizando la pagina enviando el post, con id: "+ post._id);
                 
                
                 res.render('editPost',{
@@ -176,14 +176,18 @@ module.exports = function(app) {
    
      app.get('/addComment/:idPost', function(req,res){
 
-            var title= req.params.idPost;
-            console.log("el titulo obtenido de la url es: "+ req.params.idPost);
+            var id= req.params.idPost;
+            //console.log("el titulo obtenido de la url es: "+ req.params.idPost);
 
-            PM.findPostByTitle(title, function(error, post){
-            
-            if (error){console.log("ERROR EN EL GET ");res.send(error,400)}
-            else{
-                console.log("renderizando la pagina enviando el post, con id: "+ post._id);
+            PM.findPostById(id,function(error, post){
+                
+                
+                if (error){
+                    console.log("ERROR EN EL GET ");res.send(error,400)}
+                
+                else{
+               // console.log("renderizando la pagina enviando el post, con id: "+ post.title);
+               // console.log("renderizando la pagina enviando el post, con usuario: "+ req.session.user.name);
                 
                
                 res.render('addComment',{
@@ -191,16 +195,15 @@ module.exports = function(app) {
                     udata: req.session.user
                 
                 });
-               
-               
-               
-
-
-               // res.send('ok', 200);
+                             
             }
+                
+                })
             
-            });
-            });
+    });
+
+
+           
 
   app.post('/addComment/:idPost', function(req, res){
 
@@ -255,12 +258,14 @@ module.exports = function(app) {
 		    console.log("ERROR EN EL GET ");res.send("Campo de busqueda vacio",400);           
             }
 
-        else if ((req.param('isAuthorSearch') == 'on')&(req.param('isTagSearch') == 'on')){
+        else if ((isAuthorSearch)&(isTagSearch)&(isTitleSearch)){
+
+
 
 
 
             
-                }else if (req.param('isAuthorSearch') == 'on'){
+                }else if (isAuthorSearch){
 
                     PM.findPostByAuthor(req.body.searchField, function(error, post){
             
@@ -283,7 +288,7 @@ module.exports = function(app) {
 
                         
                       
-                }else if (req.param('isTagSearch') == 'on'){
+                }else if (isTagSearch){
 
                     PM.getAllPostsFromTag(req.body.searchField, function(error, posts){
             
