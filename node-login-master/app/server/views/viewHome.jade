@@ -1,0 +1,40 @@
+﻿extends layout
+
+block content
+
+	- for (var i = 0; i < posts.length; i++)
+		- var edit = (posts[i].author === udata.name? 'Edit':'')
+		#post-container.well
+			h1.label#Title Title 
+			| #{posts[i].title} <br><br>
+			h1.label#Author Author 
+			|	#{posts[i].author} <br><br>
+			h1.label#Date Created
+			|  #{posts[i].date} <br><br>
+			h2.label#Body Body
+			|	#{posts[i].body} <br><br>
+			h2.label#Tags Tags
+			- for (var j = 0; j < posts[i].tags.length; j++)
+				p.subheading #{posts[i].tags[j]} <br>
+			h2.label#Comments Comments			
+			- for (var j = 0; j < posts[i].comments.length; j++)            
+				p.subheading #{posts[i].comments[j].body} <br>            
+			div.clear-fix
+			hr
+			a(class='#btn-addComment', href='/addComment/'+posts[i]._id ) 
+				| View Post / Comment <br><br>
+			a(class='#btn-editPost', href='/editPost/'+posts[i]._id ) 
+				| #{edit}     <br> 
+
+
+
+
+	include navBar
+
+block scripts
+	script(src='/vendor/jquery.min.js')
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/js/controllers/navBarController.js')
+	script(src='/js/views/navBar.js')	

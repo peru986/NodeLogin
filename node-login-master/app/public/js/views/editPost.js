@@ -17,7 +17,7 @@
                    // ev.showEmailSuccess("Check your email on how to reset your password.");
 		    },
 		    error : function(e){
-                console.log('ERROR EN EL FORMULARIO DE ADDCOMMENT');
+                console.log('ERROR EN EL FORMULARIO DE EDIT POST');
 			    //ev.showEmailAlert("Sorry. There was a problem, please try again later.");
 		}
 	});

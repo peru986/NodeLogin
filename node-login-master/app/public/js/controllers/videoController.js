@@ -206,9 +206,9 @@ function readBlob(blob,post){
     var reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onload = function(){
-        var caca = reader.result;
-        console.log("FILEREADER : "+ caca);
-        $('#videoBlob').value = caca;
+        var res = reader.result;
+        console.log("FILEREADER : "+ res);
+        $('#videoBlob').value = res;
         }
     }
 

@@ -5,8 +5,8 @@ var moment 		= require('moment');
 var mongo       = require('mongodb');
 var dbPort 		= 27017;
 var dbHost 		= 'localhost';
-var dbName 		= 'node-login';
-
+//var dbName 		= 'node-login';
+var dbName 		= 'microBlog';
 /* establish the database connection */
 
     db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
@@ -32,7 +32,7 @@ exports.addNewPost = function(post, callback)
                 //separamos las tags
                 var tags = post.tags;
                 var tagsSeparados = tags.split(" ");
-                console.log("TAGS SEPARADOS: "+ tagsSeparados);
+                console.log("TAGS SEPARADOS: "+ tags);
                 //console.log("VideoBlob: "+ post.videoBlob);
                 console.log("VideoBlobURL: "+ post.videoBlobURL);
                 			    // append date stamp when record was created //
@@ -101,18 +101,24 @@ exports.editPost = function(postData,callback){
 
         posts.findOne({title: postData.oldTitle}, function(e, post){
 
-        if (e) console.log('ERRORAZO  encontrando el post PM.editPost');
+        if (e) console.log('ERRORAZO encontrando el post PM.editPost');
         else{
+
+            var tagsAux = postData.tags.split(" ");
+
+
             var oldTitle = postData.oldTitle;
             var titlePost = postData.title;
             var bodyPost = postData.body;
             var authorPost = postData.author;
             var dateEdit = moment().format('MMMM Do YYYY, h:mm:ss a');
             var idPost = post._id;
-            var tags = postData.tags;
+            var tags = tagsAux;
             var comments = post.comments;
             var videoBlob = post.videoBlob;
             var videoBlobURL= post.videoBlobURL;
+
+            console.log('tags(split): '+ tagsAux+ ' tags(sin split):'+ post.tags);
 
             //console.log('DATOS CAPTURADOS: '+ titlePost+ " "+ bodyPost+" "+ authorPost+" "+dateEdit+" "+tags+" [comments]  "+comments+" [videoBLOb] "+videoBlob+" [videoBLObURL]  "+videoBlobURL+" ");
             //var texto = post.comments + commentData.commentBody;
@@ -133,12 +139,11 @@ exports.editPost = function(postData,callback){
                         body: bodyPost,
                         date: dateEdit,
                         author: authorPost,
-                        tags: tags,
                         comments: comments,
                         videoBlob: videoBlob,
-                        videoBlobURL: videoBlobURL
-
-                        //$set: {comments: arrayComentarios}
+                        videoBlobURL: videoBlobURL,
+                        tags: tagsAux
+                        
              
                     },callback)
 
@@ -151,7 +156,7 @@ exports.editPost = function(postData,callback){
                     body: bodyPost,
                     date: dateEdit,
                     author: authorPost,
-                    tags: tags,
+                    tags: tagsAux,
                     comments: comments,
                     videoBlob: videoBlob,
                     videoBlobURL: videoBlobURL
@@ -200,6 +205,17 @@ exports.getAllPosts = function(callback)
 		else callback(null, res)
 	});
 };
+
+exports.getAllNoPrivatePosts = function(author,callback)
+{
+    posts.find({$or: [{isPrivate:0},{author:author} ]}).toArray(
+		function(e, res) {
+		if (e) callback(e)
+		else callback(null, res)
+	});
+    
+    
+    }
 
 
 exports.findPostById=function(id, callback){

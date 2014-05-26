@@ -369,7 +369,7 @@ module.exports = function(app) {
 	        res.redirect('/');
 	    }   else{
 
-            PM.getAllPosts(function (e, postCollection){
+            PM.getAllNoPrivatePosts(req.session.user.name,function (e, postCollection){
                 if (!e)
                     res.render('home',{
                         title : 'Welcome HOME',
@@ -383,7 +383,7 @@ module.exports = function(app) {
         }
 	});
 	
-    
+    /*
 	app.post('/home', function(req, res){
         //este post ahora habria que cambiarlo para enviar un POST al server con un nuevo "articulo o video"
 
@@ -413,7 +413,9 @@ module.exports = function(app) {
 			req.session.destroy(function(e){ res.send('ok', 200); });
 		}
 	});
-	
+	*/
+
+
 // creating new accounts //
 	
 	app.get('/signup', function(req, res) {
